@@ -44,4 +44,34 @@ public class Hospede extends Pessoa{
     public ArrayList<Registro> getRegistros(){
         return this.registros;
     }
+    
+    public static boolean validarCPF(String cpf){
+        String cleanCpf = cpf.replace("-", "").replace(".","");
+        
+        int sum1 = 0;
+        int sum2 = 0;
+        int dig1 = 0;
+        int dig2 = 0;
+        
+        if(cleanCpf.length() != 11) return false;
+        for(int i=0;i<9;i++){
+            sum1 += Integer.valueOf(cleanCpf.substring(i, i+1)).intValue()*(i+1);
+            sum2 += Integer.valueOf(cleanCpf.substring(i, i+1)).intValue()*(11-i);
+        }
+        
+        dig1 = sum1 % 11;
+        if (dig1 == 10) dig1 = 0;
+        
+        sum2 += dig1 * 2;
+        dig2 = (sum2*10) % 11;
+        if (dig2 == 10) dig2 = 0;
+
+        if(dig1 != Integer.valueOf(cleanCpf.substring(9, 10)).intValue()){
+            return false;
+        }
+        if(dig2 != Integer.valueOf(cleanCpf.substring(10, 11)).intValue()){
+            return false;
+        }
+        return true;
+    }
 }

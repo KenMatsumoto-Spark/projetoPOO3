@@ -13,8 +13,6 @@ public class ServicoQuarto {
     private int codigo;
     private String descricao;
     private double valor;
-    
-    private Registro registro;
 
     public ServicoQuarto(int codigo, String descricao) {
         this.codigo = codigo;
@@ -36,13 +34,4 @@ public class ServicoQuarto {
     public double getValor() {
         return valor;
     }
-    
-    public void setRegistro(Registro reg){
-        this.registro = reg;
-    }
-
-    public Registro getRegistro() {
-        return registro;
-    }
-    
 }

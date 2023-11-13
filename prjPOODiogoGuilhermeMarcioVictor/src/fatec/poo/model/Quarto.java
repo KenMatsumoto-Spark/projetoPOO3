@@ -15,7 +15,6 @@ public class Quarto {
     private boolean situacao;
     private double valorDiaria;
     private double totalFaturado;
-    private Registro registro;
     
     public Quarto(int numero, String tipo, double valorDiaria) {
         this.numero = numero;
@@ -29,13 +28,8 @@ public class Quarto {
     
     public double liberar(int dias) {
         this.situacao = false;
-        this.totalFaturado = dias * this.valorDiaria;
+        this.totalFaturado += dias * this.valorDiaria;
         return (dias * this.valorDiaria);
-    }
-    
-    public void addRegistro(Registro reg){
-        this.registro = reg;
-        reg.setQuarto(this);
     }
 
     public int getNumero() {
@@ -57,9 +51,4 @@ public class Quarto {
     public double getTotalFaturado() {
         return totalFaturado;
     }
-
-    public Registro getRegistro() {
-        return registro;
-    }
-    
 }

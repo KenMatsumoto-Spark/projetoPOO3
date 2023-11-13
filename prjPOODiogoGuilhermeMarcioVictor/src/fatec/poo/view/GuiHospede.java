@@ -5,6 +5,11 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoHospede;
+import fatec.poo.model.Hospede;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DiogoGuilhermeMarcioVictor
@@ -45,6 +50,14 @@ public class GuiHospede extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro Hóspede");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("CPF");
 
@@ -61,6 +74,11 @@ public class GuiHospede extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfActionPerformed(evt);
+            }
+        });
 
         txtNome.setEnabled(false);
 
@@ -72,19 +90,39 @@ public class GuiHospede extends javax.swing.JFrame {
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
         btnInserir.setEnabled(false);
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
         btnAlterar.setToolTipText("");
         btnAlterar.setEnabled(false);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/rem.png"))); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         btnSair.setText("Sair");
@@ -167,6 +205,138 @@ public class GuiHospede extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        conexao = new Conexao("visitor","12345");//usuario e senha
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
+        daoHospede = new DaoHospede(conexao.conectar());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        hospede = null;
+       
+        if(!Hospede.validarCPF(txtCpf.getText())) {
+            JOptionPane.showMessageDialog(null, "CPF inválido.");
+            txtCpf.requestFocus();
+            return;
+        }
+       
+       hospede = daoHospede.consultar(txtCpf.getText());
+       
+       if (hospede == null){
+           txtCpf.setEnabled(false);
+           txtNome.setEnabled(true);
+           txtNome.requestFocus();
+
+           txtEndereco.setEnabled(true);           
+           txtTaxaDesconto.setEnabled(true);
+           txtTelefone.setEnabled(true);   
+           
+           btnConsultar.setEnabled(false);
+           btnInserir.setEnabled(true);
+           btnAlterar.setEnabled(false);
+           btnExcluir.setEnabled(false);
+       }
+       else{
+          txtNome.setText(hospede.getNome());
+          txtEndereco.setText(hospede.getEndereco());
+          txtTaxaDesconto.setText(Double.toString(hospede.getTaxaDesconto()));
+          txtTelefone.setText(hospede.getTelefone());
+          
+          txtCpf.setEnabled(false); 
+          txtNome.setEnabled(true);
+          txtEndereco.setEnabled(true);           
+          txtTaxaDesconto.setEnabled(true);
+          txtTelefone.setEnabled(true);  
+          txtNome.requestFocus();
+          
+          btnConsultar.setEnabled(false);
+          btnInserir.setEnabled(false);
+          btnAlterar.setEnabled(true);
+          btnExcluir.setEnabled(true);
+       }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCpfActionPerformed
+
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        hospede = new Hospede(txtCpf.getText(),txtNome.getText());
+        hospede.setEndereco(txtEndereco.getText());
+        hospede.setTelefone(txtTelefone.getText());
+        hospede.setTaxaDesconto(Double.parseDouble(txtTaxaDesconto.getText()));
+        daoHospede.inserir(hospede);
+         
+        txtCpf.setText("");
+        txtNome.setText("");      
+        txtEndereco.setText("");   
+        txtTelefone.setText("");   
+        txtTaxaDesconto.setText("");   
+        btnInserir.setEnabled(false);
+        txtCpf.setEnabled(true);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtTaxaDesconto.setEnabled(false);
+        txtCpf.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+    }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){
+           hospede.setNome(txtNome.getText());
+           hospede.setEndereco(txtEndereco.getText());
+           hospede.setTelefone(txtTelefone.getText());
+           hospede.setTaxaDesconto(Double.parseDouble(txtTaxaDesconto.getText()));
+           daoHospede.alterar(hospede);
+        }         
+        txtCpf.setText("");
+        txtNome.setText("");      
+        txtEndereco.setText("");   
+        txtTelefone.setText("");   
+        txtTaxaDesconto.setText("");   
+        btnInserir.setEnabled(false);
+        txtCpf.setEnabled(true);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtTaxaDesconto.setEnabled(false);
+        txtCpf.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);    
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoHospede.excluir(hospede); 
+            
+            txtCpf.setText("");
+            txtNome.setText("");      
+            txtEndereco.setText("");   
+            txtTelefone.setText("");   
+            txtTaxaDesconto.setText("");   
+            btnInserir.setEnabled(false);
+            txtCpf.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtTaxaDesconto.setEnabled(false);
+            txtCpf.requestFocus();
+
+            btnConsultar.setEnabled(true);
+            btnInserir.setEnabled(false);  
+        }  
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -185,4 +355,7 @@ public class GuiHospede extends javax.swing.JFrame {
     private javax.swing.JTextField txtTaxaDesconto;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+    private DaoHospede daoHospede=null;
+    private Hospede hospede=null;
+    private Conexao conexao=null;
 }
