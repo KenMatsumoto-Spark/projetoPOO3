@@ -5,6 +5,12 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoRecepcionista;
+import fatec.poo.model.Recepcionista;
+import javax.swing.JOptionPane;
+
+
 /**
  *
  * @author DiogoGuilhermeMarcioVictor
@@ -48,6 +54,14 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Recepcionista");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Registro Funcional");
 
@@ -102,18 +116,38 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
         btnInserir.setEnabled(false);
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
         btnAlterar.setEnabled(false);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/rem.png"))); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         btnSair.setText("Sair");
@@ -200,6 +234,34 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        conexao = new Conexao("visitor","12345");//usuario e senha
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
+        daoRecepcionista = new DaoRecepcionista(conexao.conectar());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -221,4 +283,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     private javax.swing.JTextField txtRegistroFuncional;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+    private DaoRecepcionista daoRecepcionista =null;
+    private Recepcionista recepcionista = null;
+    private Conexao conexao=null;
 }

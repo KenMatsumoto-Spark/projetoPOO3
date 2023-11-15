@@ -206,9 +206,9 @@ public class GuiHospede extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        conexao = new Conexao("visitor","12345");//usuario e senha
+        conexao = new Conexao("BD2021001","BD2021001");//usuario e senha
         conexao.setDriver("oracle.jdbc.driver.OracleDriver");
-        conexao.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
+        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
         daoHospede = new DaoHospede(conexao.conectar());
     }//GEN-LAST:event_formWindowOpened
 

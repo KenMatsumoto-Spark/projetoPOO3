@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package fatec.poo.view;
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoQuarto;
 import fatec.poo.model.Quarto;
 
 /**
@@ -12,7 +14,6 @@ import fatec.poo.model.Quarto;
  */
 public class GuiQuarto extends javax.swing.JFrame {
     
-    private Quarto quarto;
     /**
      * Creates new form GuiCadastroQuarto
      */
@@ -46,6 +47,9 @@ public class GuiQuarto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro Quarto");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -181,8 +185,16 @@ public class GuiQuarto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
+        conexao = new Conexao("BD2021001","BD2021001");//usuario e senha
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
+        daoQuarto = new DaoQuarto(conexao.conectar());
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
 
 
 
@@ -201,4 +213,7 @@ public class GuiQuarto extends javax.swing.JFrame {
     private javax.swing.JTextField txtNumeroQuarto;
     private javax.swing.JTextField txtValorDiaria;
     // End of variables declaration//GEN-END:variables
+    private DaoQuarto daoQuarto =null;
+    private Quarto quarto = null;
+    private Conexao conexao=null;
 }

@@ -51,4 +51,6 @@ public class Quarto {
     public double getTotalFaturado() {
         return totalFaturado;
     }
+    
+    
 }
