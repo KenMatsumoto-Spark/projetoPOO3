@@ -34,13 +34,8 @@ public class DaoRecepcionista {
     public void alterar(Recepcionista recepcionista) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE tbhospede set NOME = ?, ENDERECO = ?, TELEFONE = ?, TURNO = ? " +
-                                                 "where regfunc = ?");
-            System.out.println(recepcionista.getRegFunc());
-            System.out.println(recepcionista.getNome());
-            System.out.println(recepcionista.getEndereco());
-            System.out.println(recepcionista.getTelefone());
-            System.out.println(recepcionista.getTurno());
+            ps = conn.prepareStatement("UPDATE tbrecepcionista set NOME = ?, ENDERECO = ?, TELEFONE = ?, TURNO = ? " +
+                                                 "where REGFUNC = ?");
             
             ps.setInt(5, recepcionista.getRegFunc());
             ps.setString(1, recepcionista.getNome());

@@ -18,7 +18,7 @@ public class DaoQuarto {
     public void inserir(Quarto quarto) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("INSERT INTO tbquarto(NUMERO, VALORDIARIA, TIPO) VALUES(?,?,?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO tbquarto(NUMERO, VALORDIARIA, TIPO) VALUES(?,?,?)");
             ps.setInt(1, quarto.getNumero());
             ps.setDouble(2, quarto.getValorDiaria());
             ps.setString(3, quarto.getTipo());
@@ -32,11 +32,8 @@ public class DaoQuarto {
     public void alterar(Quarto quarto) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE tbhospede set NUMERO = ?, VALORDIARIA = ?, TIPO = ?" +
+            ps = conn.prepareStatement("UPDATE tbquarto set VALORDIARIA = ?, TIPO = ?" +
                                                  "where numero = ?");
-            System.out.println(quarto.getNumero());
-            System.out.println(quarto.getValorDiaria());
-            System.out.println(quarto.getTipo());
             
             ps.setInt(3, quarto.getNumero());
             ps.setDouble(1, quarto.getValorDiaria());

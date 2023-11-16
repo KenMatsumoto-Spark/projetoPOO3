@@ -246,23 +246,177 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
-    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnConsultarActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoRecepcionista.excluir(recepcionista); 
+            
+            txtRegistroFuncional.setText("");
+            txtNome.setText("");      
+            txtEndereco.setText("");   
+            txtTelefone.setText("");   
+            rdbManha.setSelected(true);
+            
+            txtRegistroFuncional.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            rdbManha.setEnabled(false);
+            rdbTarde.setEnabled(false);
+            rdbNoite.setEnabled(false);
+            txtRegistroFuncional.requestFocus();
+
+            btnConsultar.setEnabled(true);
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
-        // TODO add your handling code here:
+        String turno = "";
+        
+        if(rdbManha.isSelected()){
+            turno = "M-Manhã";
+        } else if(rdbTarde.isSelected()){
+             turno = "T-Tarde";
+        }else{
+            turno = "N-Noite";
+        }
+        
+        recepcionista = new Recepcionista (Integer.parseInt(txtRegistroFuncional.getText()),txtNome.getText());
+        recepcionista.setEndereco(txtEndereco.getText());
+        recepcionista.setTelefone(txtTelefone.getText());
+        recepcionista.setTurno(turno);
+        daoRecepcionista.inserir(recepcionista);
+         
+        txtRegistroFuncional.setText("");
+        txtNome.setText("");      
+        txtEndereco.setText("");   
+        txtTelefone.setText("");      
+        rdbManha.setSelected(true);
+
+        btnInserir.setEnabled(false);
+        txtRegistroFuncional.setEnabled(true);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        rdbManha.setEnabled(false);
+        rdbTarde.setEnabled(false);
+        rdbNoite.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){
+            String turno = "";
+
+            if(rdbManha.isSelected()){
+                turno = "M-Manhã";
+            } else if(rdbTarde.isSelected()){
+                 turno = "T-Tarde";
+            }else{
+                turno = "N-Noite";
+            }
+
+           recepcionista.setNome(txtNome.getText());
+           recepcionista.setEndereco(txtEndereco.getText());
+           recepcionista.setTelefone(txtTelefone.getText());
+           recepcionista.setTurno(turno);
+           daoRecepcionista.alterar(recepcionista);
+        }         
+        txtRegistroFuncional.setText("");
+        txtNome.setText("");      
+        txtEndereco.setText("");   
+        txtTelefone.setText("");   
+        rdbManha.setSelected(true);
+        
+        btnInserir.setEnabled(false);
+        txtRegistroFuncional.setEnabled(true);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        rdbManha.setEnabled(false);
+        rdbTarde.setEnabled(false);
+        rdbNoite.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExcluirActionPerformed
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        int intRegFunc;
+        intRegFunc = 0;
+        boolean isNumber = false;
+    
+        try {
+            intRegFunc =  Integer.parseInt(txtRegistroFuncional.getText());
+            isNumber = true;
+            } catch (NumberFormatException e) {	  
+                isNumber = false;
+            }        
+        
+        if (!isNumber) {
+            JOptionPane.showMessageDialog(null,"Código inválido");
+            txtRegistroFuncional.requestFocus();
+        } else { 
+    
+        
+       recepcionista = null;
+       recepcionista = daoRecepcionista.consultar(Integer.parseInt(txtRegistroFuncional.getText()));
+       
+       if (recepcionista == null){
+           txtRegistroFuncional.setEnabled(false);
+           txtNome.setEnabled(true);
+           txtNome.requestFocus();
 
+           txtEndereco.setEnabled(true);           
+           rdbManha.setEnabled(true);
+           rdbTarde.setEnabled(true);
+           rdbNoite.setEnabled(true);
+           txtTelefone.setEnabled(true);   
+           
+           btnConsultar.setEnabled(false);
+           btnInserir.setEnabled(true);
+           btnAlterar.setEnabled(false);
+           btnExcluir.setEnabled(false);
+       }
+       else{
+            txtNome.setText(recepcionista.getNome());
+            txtEndereco.setText(recepcionista.getEndereco());
+            txtTelefone.setText(recepcionista.getTelefone());
+          
+            if("M-Manhã".equals(recepcionista.getTurno())){
+                rdbManha.setSelected(true);
+            } else if("T-Tarde".equals(recepcionista.getTurno())){
+                rdbTarde.setSelected(true);
+            } else{
+                rdbNoite.setSelected(true);
+            }
+          
+            txtRegistroFuncional.setEnabled(false); 
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);           
+            rdbManha.setEnabled(true);
+            rdbTarde.setEnabled(true);
+            rdbNoite.setEnabled(true);
+            txtTelefone.setEnabled(true);  
+            txtNome.requestFocus();
 
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+       }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnConsultar;
@@ -286,4 +440,5 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     private DaoRecepcionista daoRecepcionista =null;
     private Recepcionista recepcionista = null;
     private Conexao conexao=null;
+
 }

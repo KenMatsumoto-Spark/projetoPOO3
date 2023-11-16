@@ -54,6 +54,15 @@ public class Hospede extends Pessoa{
         int dig2 = 0;
         
         if(cleanCpf.length() != 11) return false;
+        
+        if (cleanCpf.equals("00000000000") ||
+            cleanCpf.equals("11111111111") ||
+            cleanCpf.equals("22222222222") || cleanCpf.equals("33333333333") ||
+            cleanCpf.equals("44444444444") || cleanCpf.equals("55555555555") ||
+            cleanCpf.equals("66666666666") || cleanCpf.equals("77777777777") ||
+            cleanCpf.equals("88888888888") || cleanCpf.equals("99999999999"))
+            return false;
+        
         for(int i=0;i<9;i++){
             sum1 += Integer.valueOf(cleanCpf.substring(i, i+1)).intValue()*(i+1);
             sum2 += Integer.valueOf(cleanCpf.substring(i, i+1)).intValue()*(11-i);

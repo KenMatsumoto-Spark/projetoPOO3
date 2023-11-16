@@ -206,9 +206,9 @@ public class GuiHospede extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        conexao = new Conexao("BD2021001","BD2021001");//usuario e senha
+        conexao = new Conexao("visitor","12345");//usuario e senha
         conexao.setDriver("oracle.jdbc.driver.OracleDriver");
-        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
+        conexao.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
         daoHospede = new DaoHospede(conexao.conectar());
     }//GEN-LAST:event_formWindowOpened
 
@@ -288,6 +288,8 @@ public class GuiHospede extends javax.swing.JFrame {
         
         btnConsultar.setEnabled(true);
         btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -312,7 +314,9 @@ public class GuiHospede extends javax.swing.JFrame {
         txtCpf.requestFocus();
         
         btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);    
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false); 
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -333,7 +337,9 @@ public class GuiHospede extends javax.swing.JFrame {
             txtCpf.requestFocus();
 
             btnConsultar.setEnabled(true);
-            btnInserir.setEnabled(false);  
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
         }  
     }//GEN-LAST:event_btnExcluirActionPerformed
 

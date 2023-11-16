@@ -36,11 +36,6 @@ public class DaoHospede {
         try {
             ps = conn.prepareStatement("UPDATE tbhospede set NOME = ?, ENDERECO = ?, TELEFONE = ?, TAXADESCONTO = ? " +
                                                  "where cpf = ?");
-            System.out.println(hospede.getCpf());
-            System.out.println(hospede.getNome());
-            System.out.println(hospede.getEndereco());
-            System.out.println(hospede.getTelefone());
-            System.out.println(hospede.getTaxaDesconto());
             
             ps.setString(5, hospede.getCpf());
             ps.setString(1, hospede.getNome());
@@ -54,7 +49,7 @@ public class DaoHospede {
         }
     }
         
-     public  Hospede consultar (String cpf) {
+    public  Hospede consultar (String cpf) {
         Hospede hospede = null;
         PreparedStatement ps = null;
         try {
@@ -77,7 +72,7 @@ public class DaoHospede {
         return (hospede);
     }    
      
-     public void excluir(Hospede hospede) {
+    public void excluir(Hospede hospede) {
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement("DELETE FROM tbhospede where cpf = ?");
