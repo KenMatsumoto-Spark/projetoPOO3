@@ -224,8 +224,8 @@ public class GuiQuarto extends javax.swing.JFrame {
 
                 btnConsultar.setEnabled(false);
                 btnInserir.setEnabled(true);
-                btnAlterar.setEnabled(true);
-                btnExcluir.setEnabled(true);
+                btnAlterar.setEnabled(false);
+                btnExcluir.setEnabled(false);
             }
             else{
 
@@ -244,7 +244,7 @@ public class GuiQuarto extends javax.swing.JFrame {
                 txtValorDiaria.requestFocus();
 
                  btnConsultar.setEnabled(false);
-                 btnInserir.setEnabled(true);
+                 btnInserir.setEnabled(false);
                  btnAlterar.setEnabled(true);
                  btnExcluir.setEnabled(true);
              }                                          
