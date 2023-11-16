@@ -27,6 +27,9 @@ public class Registro {
     public Registro(int codigo, LocalDate dataEntrada, Recepcionista recepcionista) {
         this.codigo = codigo;
         this.dataEntrada = dataEntrada;
+        
+        recepcionista.addRegistro(this);
+        this.servicos = new ArrayList<ServicoQuarto>();
     }
     
     public void setDataSaida(LocalDate dataSaida) {
@@ -50,8 +53,8 @@ public class Registro {
     }
     
     public void reservarQuarto(Hospede hospede, Quarto quarto) {
-        this.hospede = hospede;
         this.hospede.addRegistro(this);
+        this.quarto = quarto;
         quarto.reservar();
     }
     
